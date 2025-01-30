@@ -32,7 +32,7 @@ public class UnitActionSystem : MonoBehaviour
                 return; // 防止新选中的unit在选中的这一帧执行移动的操作
             }
 
-            curSelectedUnit.Move(MouseWorld.Instance.GetPosition());
+            curSelectedUnit?.Move(MouseWorld.Instance.GetPosition());
         }
     }
     #endregion
