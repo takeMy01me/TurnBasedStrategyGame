@@ -41,30 +41,37 @@ public class LevelGrid : MonoBehaviour
 
 
     #region 对外接口
-    public void SetUnitAtGridPosition(GridPosition gridPosition, Unit unit)
+    public void AddUnitAtGridPosition(GridPosition gridPosition, Unit unit)
     {
         GridObject gridObj = gridSystem.GetGridObject(gridPosition);
         if (gridObj != null)
         {
-            gridObj.SetUnit(unit);
+            gridObj.AddUnit(unit);
         }
     }
 
-    public Unit GetUnitAtGridPosition(GridPosition gridPosition)
+    public List<Unit> GetUnitListAtGridPosition(GridPosition gridPosition)
     {
-        Unit unit = null; 
+        List<Unit> unitList = null; 
         GridObject gridObj = gridSystem.GetGridObject(gridPosition);
         if (gridObj != null)
         {
-            unit = gridObj.GetUnit();
+            unitList = gridObj.GetUnitList();
         }
-        return unit;
+        return unitList;
     }
 
-    public void ClearUnitAtGridPosition(GridPosition gridPosition)
+    public void RemoveUnitAtGridPosition(GridPosition gridPosition, Unit unit)
     {
         GridObject gridObj = gridSystem.GetGridObject(gridPosition);
-        gridObj.SetUnit(null);
+        gridObj.RemoveUnit(unit);
+    }
+
+    public void UnitMovedGridPosition(Unit unit, GridPosition fromgridPos, GridPosition toGridPos)
+    {
+        RemoveUnitAtGridPosition(fromgridPos, unit);
+
+        AddUnitAtGridPosition(toGridPos, unit);
     }
 
     public GridPosition GetGridPosition(Vector3 worldPosition)

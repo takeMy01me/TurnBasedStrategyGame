@@ -11,6 +11,8 @@ public class Unit : MonoBehaviour
     private float stoppingDistance = 0.1f;
     private float moveSpeed = 4f;
     private float moveRotateSpeed = 10f;
+
+    private GridPosition gridPos;
     #endregion
 
 
@@ -22,8 +24,8 @@ public class Unit : MonoBehaviour
 
     private void Start()
     {
-        GridPosition gridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
-        LevelGrid.Instance.SetUnitAtGridPosition(gridPosition, this);
+        gridPos = LevelGrid.Instance.GetGridPosition(transform.position);
+        LevelGrid.Instance.AddUnitAtGridPosition(gridPos, this);
     }
 
     private void Update()
@@ -40,6 +42,13 @@ public class Unit : MonoBehaviour
         else
         {
             unitAnimator.SetBool("IsWalking", false);
+        }
+
+        GridPosition newGridPos = LevelGrid.Instance.GetGridPosition(transform.position);
+        if (newGridPos != gridPos) // Unit changed GridPosition
+        {
+            LevelGrid.Instance.UnitMovedGridPosition(this, gridPos, newGridPos);
+            gridPos = newGridPos;
         }
     }
     #endregion
